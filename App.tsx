@@ -68,17 +68,24 @@ const App: React.FC = () => {
       [AppType.PROJECT_DETAIL]: data ? `Project: ${data.title}` : 'Project Details',
     };
 
-    // Randomize initial position slightly
+    // Responsive initial size & position
+    const isMobile = window.innerWidth < 640;
+    const initialW = isMobile ? Math.min(window.innerWidth - 32, 500) : INITIAL_WINDOW_WIDTH;
+    const initialH = isMobile ? 450 : INITIAL_WINDOW_HEIGHT;
+    
+    // Stagger windows, but center on mobile
     const offset = windows.length * 20;
+    const initialX = isMobile ? 16 : 100 + offset;
+    const initialY = isMobile ? 40 + (windows.length * 15) : 80 + offset;
 
     const newWindow: WindowState = {
       id,
       appType,
       title: titleMap[appType],
-      x: 100 + offset,
-      y: 80 + offset,
-      width: INITIAL_WINDOW_WIDTH,
-      height: INITIAL_WINDOW_HEIGHT,
+      x: initialX,
+      y: initialY,
+      width: initialW,
+      height: initialH,
       zIndex: nextZIndex,
       isMinimized: false,
       data
@@ -105,11 +112,12 @@ const App: React.FC = () => {
     setNextZIndex(prev => prev + 1);
   };
 
-  // Mouse Event Handlers (Global)
+  // Global Pointer Events (Handles both Mouse and Touch)
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
+    const handlePointerMove = (e: PointerEvent) => {
       // Dragging
       if (dragState.current.isDragging && dragState.current.windowId !== null) {
+        // Prevent default touch scrolling logic if handled
         const dx = e.clientX - dragState.current.startX;
         const dy = e.clientY - dragState.current.startY;
         
@@ -134,8 +142,8 @@ const App: React.FC = () => {
           if (w.id === resizeState.current.windowId) {
             return {
               ...w,
-              width: Math.max(300, resizeState.current.initialWidth + dx), // Min width
-              height: Math.max(200, resizeState.current.initialHeight + dy) // Min height
+              width: Math.max(250, resizeState.current.initialWidth + dx), // Min width
+              height: Math.max(150, resizeState.current.initialHeight + dy) // Min height
             };
           }
           return w;
@@ -143,23 +151,24 @@ const App: React.FC = () => {
       }
     };
 
-    const handleMouseUp = () => {
+    const handlePointerUp = () => {
       dragState.current = { isDragging: false, windowId: null, startX: 0, startY: 0, initialX: 0, initialY: 0 };
       resizeState.current = { isResizing: false, windowId: null, startX: 0, startY: 0, initialWidth: 0, initialHeight: 0 };
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', handleMouseUp);
+    window.addEventListener('pointermove', handlePointerMove);
+    window.addEventListener('pointerup', handlePointerUp);
 
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('pointerup', handlePointerUp);
     };
   }, []);
 
-  const handleDragStart = (e: React.MouseEvent, id: number) => {
+  const handleDragStart = (e: React.PointerEvent, id: number) => {
     const win = windows.find(w => w.id === id);
     if (win) {
+      // e.target.setPointerCapture(e.pointerId); // Optional, but usually good
       dragState.current = {
         isDragging: true,
         windowId: id,
@@ -171,7 +180,7 @@ const App: React.FC = () => {
     }
   };
 
-  const handleResizeStart = (e: React.MouseEvent, id: number) => {
+  const handleResizeStart = (e: React.PointerEvent, id: number) => {
     e.stopPropagation(); // Prevent drag start
     const win = windows.find(w => w.id === id);
     if (win) {
@@ -184,6 +193,11 @@ const App: React.FC = () => {
         initialHeight: win.height
       };
     }
+  };
+
+  const handlePrint = () => {
+    // Simulate printing by opening the PDF directly
+    window.open('/resume.pdf', '_blank');
   };
 
   const renderWindowContent = (win: WindowState) => {
@@ -251,7 +265,7 @@ const App: React.FC = () => {
           <MenuBar />
           
           {/* Desktop Area */}
-          <div className="absolute inset-0 pt-8">
+          <div className="absolute inset-0 pt-8 touch-none">
             
             {/* Icons - Absolute positioned on the right */}
             <DesktopIcon 
@@ -287,7 +301,7 @@ const App: React.FC = () => {
                 <DesktopIcon 
                 label="Print" 
                 icon={<Printer size={28} strokeWidth={1.5} />} 
-                onClick={() => alert("Connecting to printer...")} 
+                onClick={handlePrint} 
                 top={0} 
                 right={0} 
                 />
@@ -311,7 +325,7 @@ const App: React.FC = () => {
                 isActive={activeWindowId === win.id}
                 onClose={closeWindow}
                 onFocus={bringToFront}
-                onMouseDown={handleDragStart}
+                onPointerDown={handleDragStart}
                 onResizeStart={handleResizeStart}
               >
                 {renderWindowContent(win)}

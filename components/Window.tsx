@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Minus } from 'lucide-react';
+import { X } from 'lucide-react';
 import { WindowState } from '../types';
 
 interface WindowProps {
@@ -7,8 +7,8 @@ interface WindowProps {
   isActive: boolean;
   onClose: (id: number) => void;
   onFocus: (id: number) => void;
-  onMouseDown: (e: React.MouseEvent, id: number) => void; // For drag start
-  onResizeStart: (e: React.MouseEvent, id: number) => void;
+  onPointerDown: (e: React.PointerEvent, id: number) => void; // Changed from onMouseDown
+  onResizeStart: (e: React.PointerEvent, id: number) => void; // Changed from onMouseDown
   children: React.ReactNode;
 }
 
@@ -17,7 +17,7 @@ const Window: React.FC<WindowProps> = ({
   isActive, 
   onClose, 
   onFocus, 
-  onMouseDown, 
+  onPointerDown, 
   onResizeStart,
   children 
 }) => {
@@ -32,30 +32,31 @@ const Window: React.FC<WindowProps> = ({
         width: width,
         height: height,
         zIndex: zIndex,
+        touchAction: 'none' // Prevent browser handling of gestures
       }}
-      onMouseDown={() => onFocus(id)}
+      onPointerDown={() => onFocus(id)}
     >
       {/* Title Bar */}
       <div
-        className={`h-8 border-b-2 border-black flex items-center justify-between px-1 select-none cursor-grab active:cursor-grabbing ${isActive ? 'striped-bg' : 'bg-white'}`}
-        onMouseDown={(e) => onMouseDown(e, id)}
+        className={`h-8 border-b-2 border-black flex items-center justify-between px-1 select-none cursor-grab active:cursor-grabbing touch-none ${isActive ? 'striped-bg' : 'bg-white'}`}
+        onPointerDown={(e) => onPointerDown(e, id)}
       >
         <button
           onClick={(e) => {
             e.stopPropagation();
             onClose(id);
           }}
-          className="w-5 h-5 bg-white border border-black flex items-center justify-center hover:bg-black hover:text-white active:invert z-10"
+          className="w-5 h-5 bg-white border border-black flex items-center justify-center hover:bg-black hover:text-white active:invert z-10 shrink-0"
         >
           <X size={14} />
         </button>
 
-        <span className={`px-2 text-sm font-bold bg-white border-x border-black ${isActive ? 'mx-auto' : 'ml-2'}`}>
+        <span className={`px-2 text-sm font-bold bg-white border-x border-black truncate mx-2 ${isActive ? 'mx-auto' : 'ml-2'}`}>
           {title}
         </span>
 
-        {/* Spacer to balance the close button visually if needed, or just empty */}
-        <div className="w-5" />
+        {/* Spacer to balance the close button visually if needed */}
+        <div className="w-5 shrink-0" />
       </div>
 
       {/* Content Area */}
@@ -65,10 +66,10 @@ const Window: React.FC<WindowProps> = ({
 
       {/* Resize Handle */}
       <div
-        className="absolute bottom-0 right-0 w-4 h-4 cursor-nwse-resize flex items-end justify-end p-0.5 bg-white z-20"
-        onMouseDown={(e) => onResizeStart(e, id)}
+        className="absolute bottom-0 right-0 w-6 h-6 cursor-nwse-resize flex items-end justify-end p-0.5 bg-transparent z-20 touch-none"
+        onPointerDown={(e) => onResizeStart(e, id)}
       >
-         <div className="w-full h-full border-r-2 border-b-2 border-black" />
+         <div className="w-4 h-4 border-r-2 border-b-2 border-black bg-white" />
       </div>
     </div>
   );
