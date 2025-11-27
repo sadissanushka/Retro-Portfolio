@@ -10,7 +10,7 @@ const Portfolio: React.FC = () => {
   useEffect(() => {
     setTypedText('');
     setIsTypingComplete(false);
-    
+
     let index = 0;
     const timer = setInterval(() => {
       if (index < TYPEWRITER_TEXT.length) {
@@ -29,20 +29,20 @@ const Portfolio: React.FC = () => {
     <div className="p-4 md:p-6 font-serif select-text h-full">
       <div className="flex flex-col md:flex-row gap-6 border-b-2 border-black pb-6 mb-6">
         <div className="w-24 h-24 md:w-32 md:h-32 bg-gray-200 border-2 border-black shrink-0 overflow-hidden relative shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] self-center md:self-start">
-            <img src="profile_pic.png" alt="Profile" className="w-full h-full object-cover grayscale contrast-125" />
-            {/* Dithering effect overlay */}
-            <div className="absolute inset-0 bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:2px_2px] opacity-20 pointer-events-none"></div>
+          <img src="profile_pic.png" alt="Profile" />
+          {/* Dithering effect overlay */}
+          <div className="absolute inset-0 bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:2px_2px] opacity-20 pointer-events-none"></div>
         </div>
         <div className="flex-1">
-          <h1 className="text-2xl md:text-3xl font-bold mb-2 uppercase tracking-widest font-mono text-center md:text-left">W S S A T</h1>
+          <h1 className="text-2xl md:text-3xl font-bold mb-2 uppercase tracking-widest font-mono text-center md:text-left">ANUSHKA THISERA</h1>
           <p className="text-sm font-bold mb-3 border-b border-black inline-block pb-1 block text-center md:text-left">Full Stack Engineer & UI Designer</p>
-          
+
           <div className="flex flex-col gap-1 text-xs mb-4 font-mono items-center md:items-start">
             <div className="flex items-center gap-2">
               <MapPin size={14} />
               <span>Puttalam, Sri Lanka</span>
             </div>
-             <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2">
               <Mail size={14} />
               <span>admin@wssat.online</span>
             </div>
@@ -59,41 +59,41 @@ const Portfolio: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 gap-6 pb-6">
-        
+
         {/* Skills Section */}
         <div className="border-2 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-white relative mt-2">
           <div className="absolute -top-3 left-4 bg-white px-2 border-2 border-black font-bold text-xs uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] flex items-center gap-2">
-             <Code size={12} /> Technical Skills
+            <Code size={12} /> Technical Skills
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 pt-2">
-             <div>
-                <h3 className="font-bold text-xs uppercase mb-2 border-b border-gray-300">Frontend</h3>
-                <ul className="list-disc list-inside space-y-1 text-xs font-mono">
-                    <li>React / Next.js / Remix</li>
-                    <li>TypeScript / ES6+</li>
-                    <li>Tailwind / CSS Modules</li>
-                    <li>WebGL / Three.js</li>
-                </ul>
-             </div>
-             <div>
-                <h3 className="font-bold text-xs uppercase mb-2 border-b border-gray-300">Backend & DevOps</h3>
-                <ul className="list-disc list-inside space-y-1 text-xs font-mono">
-                    <li>Node.js / NestJS</li>
-                    <li>PostgreSQL / Prisma</li>
-                    <li>Docker / Kubernetes</li>
-                    <li>AWS / CI/CD</li>
-                </ul>
-             </div>
+            <div>
+              <h3 className="font-bold text-xs uppercase mb-2 border-b border-gray-300">Frontend</h3>
+              <ul className="list-disc list-inside space-y-1 text-xs font-mono">
+                <li>React / Next.js / Remix</li>
+                <li>TypeScript / ES6+</li>
+                <li>Tailwind / CSS Modules</li>
+                <li>WebGL / Three.js</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-bold text-xs uppercase mb-2 border-b border-gray-300">Backend & DevOps</h3>
+              <ul className="list-disc list-inside space-y-1 text-xs font-mono">
+                <li>Node.js / NestJS</li>
+                <li>PostgreSQL / Prisma</li>
+                <li>Docker / Kubernetes</li>
+                <li>AWS / CI/CD</li>
+              </ul>
+            </div>
           </div>
         </div>
 
         {/* Experience Section */}
         <div className="border-2 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-white relative mt-2">
           <div className="absolute -top-3 left-4 bg-white px-2 border-2 border-black font-bold text-xs uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] flex items-center gap-2">
-             <Briefcase size={12} /> Work Experience
+            <Briefcase size={12} /> Work Experience
           </div>
-          
+
           <div className="text-sm space-y-5 pt-2">
             <div>
               <div className="flex flex-col md:flex-row md:justify-between md:items-baseline mb-1">
@@ -107,7 +107,7 @@ const Portfolio: React.FC = () => {
                 <li>Mentored junior developers and introduced automated testing pipelines.</li>
               </ul>
             </div>
-            
+
             <div className="border-t-2 border-dotted border-gray-300 pt-4">
               <div className="flex flex-col md:flex-row md:justify-between md:items-baseline mb-1">
                 <p className="font-bold uppercase">Full Stack Developer</p>
@@ -124,16 +124,16 @@ const Portfolio: React.FC = () => {
 
         {/* Education Section */}
         <div className="border-2 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-white relative mt-2">
-           <div className="absolute -top-3 left-4 bg-white px-2 border-2 border-black font-bold text-xs uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] flex items-center gap-2">
-             <GraduationCap size={12} /> Education
+          <div className="absolute -top-3 left-4 bg-white px-2 border-2 border-black font-bold text-xs uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] flex items-center gap-2">
+            <GraduationCap size={12} /> Education
           </div>
           <div className="text-sm pt-2">
             <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-2">
-                <div>
-                    <p className="font-bold">B.Sc. (Hons) in Information Technology</p>
-                    <p className="text-xs mt-1">University of Moratuwa</p>
-                </div>
-                <span className="text-xs font-mono border border-black px-1 w-max">2025 - Now</span>
+              <div>
+                <p className="font-bold">B.Sc. (Hons) in Information Technology</p>
+                <p className="text-xs mt-1">University of Moratuwa</p>
+              </div>
+              <span className="text-xs font-mono border border-black px-1 w-max">2025 - Now</span>
             </div>
             <p className="text-xs text-gray-600 mt-2 italic"></p>
           </div>
